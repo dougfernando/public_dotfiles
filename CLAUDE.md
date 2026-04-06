@@ -29,7 +29,7 @@ Workflow: Edit configs in `config_files/` → upload to GitHub → run `setup-te
 ### One-liner for fresh machines
 
 ```powershell
-iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
+iex (iwr "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1").Content
 ```
 
 ### Validate PowerShell profile loads correctly
