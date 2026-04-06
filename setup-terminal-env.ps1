@@ -5,22 +5,21 @@
 
 .DESCRIPTION
     Interactive setup:
-    1. Asks for GitHub dotfiles repo URL
-    2. Asks whether to install Neovim (optional)
+    1. Asks whether to install Neovim (optional)
+    2. Downloads dotfiles from GitHub (no git required — uses GitHub API + Invoke-WebRequest)
     3. Installs tools: yazi, zoxide, eza, btop, ripgrep, fd, fzf, etc. (via winget)
-    4. Downloads dotfiles from GitHub (no git required — uses GitHub API + Invoke-WebRequest)
-    5. Copies configs to correct locations (~/.config, $PROFILE, etc.)
-    6. Sets up PowerShell profile if needed
+    4. Copies configs to correct locations (~/.config, $PROFILE, etc.)
+    5. Sets up PowerShell profile if needed
 
 .PARAMETER DotfilesDir
-    Where to clone dotfiles repo (default: ~/dotfiles)
+    Where to download dotfiles (default: ~/dotfiles)
 
 .PARAMETER Force
     Force reinstall tools and re-sync configs (skip existing check)
 
 .EXAMPLE
     # Download and run in one command:
-    iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
+    iex (iwr "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1").Content
 
     # Or run locally with optional force:
     .\setup-terminal-env.ps1 -Force
@@ -111,23 +110,7 @@ Write-Host "
 ╚══════════════════════════════════════════════════════════════╝
 " -ForegroundColor Magenta
 
-# Soft admin check — warn but continue
-if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(
-    [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Host "⚠ Not running as admin — some installs may fail. Re-run as admin if issues occur." -ForegroundColor Yellow
-}
-
-# ============================================================================
-# STEP 0: Ask for GitHub repo and optional tools
-# ============================================================================
-
-Write-Step "GitHub Dotfiles Repo"
-$GitHubRepo = Read-Host "Enter GitHub repo URL (e.g., https://github.com/dougfernando/public_dotfiles)"
-if (-not $GitHubRepo) {
-    Write-Error "GitHub repo URL required. Exiting."
-    exit 1
-}
-Write-Success "Using repo: $GitHubRepo"
+$GitHubRepo = "https://github.com/dougfernando/public_dotfiles"
 
 # ============================================================================
 # Ask about optional tools
@@ -145,19 +128,7 @@ if ($response -eq "Y" -or $response -eq "y") {
 }
 
 # ============================================================================
-# STEP 1: Update winget
-# ============================================================================
-
-Write-Step "Updating winget"
-try {
-    winget upgrade --all --silent --accept-source-agreements 2>$null
-    Write-Success "Winget updated"
-} catch {
-    Write-Host "  Failed to update winget (non-critical, continuing)" -ForegroundColor Yellow
-}
-
-# ============================================================================
-# STEP 2: Download dotfiles from GitHub (no git required)
+# STEP 1: Download dotfiles from GitHub (no git required)
 # ============================================================================
 
 Write-Step "Downloading dotfiles from GitHub"
@@ -181,17 +152,18 @@ try {
     exit 1
 }
 
-$configFiles = $tree.tree | Where-Object { $_.type -eq "blob" -and $_.path -like "configs/*" }
+$configFiles = $tree.tree | Where-Object { $_.type -eq "blob" -and $_.path -like "config_files/*" }
 
 if ($configFiles.Count -eq 0) {
-    Write-Host "  ⚠ No files found under configs/ in repo. Check your repo structure." -ForegroundColor Yellow
+    Write-Host "  ⚠ No files found under config_files/ in repo. Check your repo structure." -ForegroundColor Yellow
 } else {
     Write-Host "  Downloading $($configFiles.Count) config files..."
     $downloadErrors = 0
 
     foreach ($file in $configFiles) {
         $rawUrl = "https://raw.githubusercontent.com/$repoPath/HEAD/$($file.path)"
-        $localPath = Join-Path $DotfilesDir ($file.path -replace "/", "\")
+        $relativePath = $file.path -replace "^config_files/", ""
+        $localPath = Join-Path $DotfilesDir ($relativePath -replace "/", "\")
         $localDir  = Split-Path $localPath
 
         if (-not (Test-Path $localDir)) {
@@ -214,7 +186,7 @@ if ($configFiles.Count -eq 0) {
 }
 
 # ============================================================================
-# STEP 3: Install remaining tools via winget
+# STEP 2: Install remaining tools via winget
 # ============================================================================
 
 Write-Step "Installing tools via winget"
@@ -241,7 +213,7 @@ foreach ($tool in $TOOLS) {
 Write-Success "Tool installation complete"
 
 # ============================================================================
-# STEP 4: Copy configs
+# STEP 3: Copy configs
 # ============================================================================
 
 Write-Step "Syncing configs"
@@ -279,7 +251,7 @@ foreach ($configName in $CONFIG_MAP.Keys) {
 }
 
 # ============================================================================
-# STEP 5: Set up PowerShell profile
+# STEP 4: Set up PowerShell profile
 # ============================================================================
 
 Write-Step "Setting up PowerShell profile"
@@ -305,7 +277,7 @@ if (Test-Path $psProfileSource) {
 }
 
 # ============================================================================
-# STEP 6: Verify installations
+# STEP 5: Verify installations
 # ============================================================================
 
 Write-Step "Verifying installations"
