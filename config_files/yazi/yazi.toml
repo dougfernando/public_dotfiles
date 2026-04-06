@@ -1,0 +1,11 @@
+[opener]
+edit = [
+	{ run = "nvim %*",  block = true, for = "windows" },
+]
+open = [
+    { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" }, 
+]
+
+[mgr]
+ratio = [ 2, 3, 3 ]
+linemode = "mtime"

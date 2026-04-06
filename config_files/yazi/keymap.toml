@@ -1,0 +1,33 @@
+[[mgr.prepend_keymap]]
+on   = [ "c", "c" ]
+run  = 'shell "c:\tools\path-to-clipboard.exe %*" --block'
+desc = "Copy file to system clipboard"
+
+
+[[mgr.prepend_keymap]]
+on   = [ "<C-h>"]
+run  = 'help'
+desc = "Open help"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "p" ]
+run  = 'cd "C:\\Users\\douglas.f.silva\\Accenture\\TS&A-BR-Financial-Services - General\\01 Proposals"'
+desc = "Go to Accenture Proposals"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "n" ]
+run  = 'cd "C:\\Users\\douglas.f.silva\\OneDrive - Accenture\\Notebooks"'
+desc = "Go to Notebooks"
+
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "t" ]
+run  = 'cd "C:\\Users\\douglas.f.silva\\TMP"'
+desc = "Go to TEMP"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "D" ]
+run  = 'cd "C:\\Users\\douglas.f.silva\\OneDrive - Accenture\\Desktop"'
+desc = "Go to Desktop"
+
+

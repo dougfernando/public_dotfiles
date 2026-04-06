@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pwsh -NoProfile -Command \"& { . '.\\\\setup-terminal-env.ps1' } 2>&1 | head -20\")",
+      "Bash(pwsh -NoProfile -Command \"& { . '.\\\\bootstrap-dotfiles.ps1' } 2>&1 | head -15\")",
+      "Read(//c/Users/douglas.f.silva/AppData/Roaming/**)",
+      "Read(//c/Users/douglas.f.silva/.config/**)",
+      "Read(//c/Users/douglas.f.silva/.local/share/**)",
+      "Bash(powershell.exe -NoProfile -Command 'Write-Host $PROFILE')",
+      "Bash(powershell.exe:*)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}
