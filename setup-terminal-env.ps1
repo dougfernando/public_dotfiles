@@ -20,7 +20,7 @@
 
 .EXAMPLE
     # Download and run in one command:
-    iwr -Uri "https://raw.githubusercontent.com/USERNAME/dotfiles/main/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
+    iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
 
     # Or run locally with optional force:
     .\setup-terminal-env.ps1 -Force
@@ -122,7 +122,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 # ============================================================================
 
 Write-Step "GitHub Dotfiles Repo"
-$GitHubRepo = Read-Host "Enter GitHub repo URL (e.g., https://github.com/username/dotfiles)"
+$GitHubRepo = Read-Host "Enter GitHub repo URL (e.g., https://github.com/dougfernando/public_dotfiles)"
 if (-not $GitHubRepo) {
     Write-Error "GitHub repo URL required. Exiting."
     exit 1

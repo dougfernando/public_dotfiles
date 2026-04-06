@@ -8,7 +8,7 @@
 
 2. Run the one-liner:
    ```powershell
-   iwr -Uri "https://raw.githubusercontent.com/YOUR_USERNAME/config_files/main/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
+   iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
    ```
 
 3. When prompted, enter your GitHub repo URL and choose whether to install Neovim

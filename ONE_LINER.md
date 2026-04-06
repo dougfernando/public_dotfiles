@@ -3,10 +3,8 @@
 Run this in Windows Terminal (PowerShell 7+) on any new machine:
 
 ```powershell
-iwr -Uri "https://raw.githubusercontent.com/YOUR_USERNAME/config_files/main/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
+iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
 ```
-
-Replace `YOUR_USERNAME` with your GitHub username.
 
 If you hit an execution policy error, prepend:
 
@@ -26,7 +24,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 ## Force reinstall
 
 ```powershell
-iwr -Uri "https://raw.githubusercontent.com/YOUR_USERNAME/config_files/main/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1" -Force
+iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1" -Force
 ```
 
 ## After setup
