@@ -9,7 +9,7 @@ function prompt {
 
     # Time, User and path
     $timeDisplay = "$timeColor[" + (Get-Date -Format "HH:mm") + "]$reset"
-    $userDisplay = "$userColor" + "douglas" + "$reset"
+    $userDisplay = "$userColor$env:USERNAME$reset"
     $pathDisplay = "$pathColor$(Get-Location)$reset"
 
     # Lambda symbol prompt
