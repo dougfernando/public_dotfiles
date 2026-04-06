@@ -3,7 +3,7 @@
 Run this in Windows Terminal (PowerShell 7+) on any new machine:
 
 ```powershell
-iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1"
+iex (iwr "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1").Content
 ```
 
 If you hit an execution policy error, prepend:
@@ -24,7 +24,12 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 ## Force reinstall
 
 ```powershell
-iwr -Uri "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1" -Force
+iex (iwr "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1").Content
+```
+
+To pass `-Force`, save to a temp file first:
+```powershell
+iwr "https://raw.githubusercontent.com/dougfernando/public_dotfiles/master/setup-terminal-env.ps1" -OutFile "$env:TEMP\setup.ps1"; & "$env:TEMP\setup.ps1" -Force
 ```
 
 ## After setup
